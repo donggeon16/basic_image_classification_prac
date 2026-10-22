@@ -9,6 +9,10 @@ __pycache__/
 # Downloaded datasets and per-run artifacts
 /data/raw/*
 !/data/raw/.gitkeep
+/data/splits/*
+!/data/splits/.gitkeep
+/data/stats/*
+!/data/stats/.gitkeep
 /runs/*
 !/runs/.gitkeep
 
