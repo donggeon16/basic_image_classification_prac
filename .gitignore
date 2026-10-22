@@ -1,0 +1,16 @@
+# Python environment and generated caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Downloaded datasets and per-run artifacts
+/data/raw/*
+!/data/raw/.gitkeep
+/runs/*
+!/runs/.gitkeep
+
+# docs
+CV_from_scratch_분류증류_드론탐지_실행계획.md
