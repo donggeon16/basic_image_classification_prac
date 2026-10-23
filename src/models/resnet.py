@@ -99,7 +99,7 @@ def test_resnet18():
     loss = y.mean()
     loss.backward()
     print(model.stem[0].weight.grad is not None)
-    print(model.stem[0].weight.grad.device)
+    print(model.stem[0].weight.grad.device) # type: ignore
 
     
 def main():
