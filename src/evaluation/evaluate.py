@@ -3,7 +3,7 @@ import torch.nn as nn
 from pathlib import Path
 import matplotlib.pyplot as plt
 import numpy as np
-from src.data.cifar10 import test_dataloader
+from src.data.cifar100 import test_dataloader
 from src.models.resnet import ResNet18
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -65,7 +65,7 @@ def test_model(model, test_loader, criterion, save_dir, device = DEVICE):
 
 
 def main():
-    avg_loss, acc, cl_acc = test_model(model = ResNet18(10), test_loader = test_dataloader(), criterion=nn.CrossEntropyLoss(), save_dir="cifar10_ResNet18")
+    avg_loss, acc, cl_acc = test_model(model = ResNet18(100), test_loader = test_dataloader(), criterion=nn.CrossEntropyLoss(), save_dir="cifar100_ResNet18_teacher_200_cosine_mixup0.2")
     print(f"average_loss = {avg_loss:.4f}, accuracy = {acc * 100:.3f}%\nclass accuracy = {cl_acc}")
 
 

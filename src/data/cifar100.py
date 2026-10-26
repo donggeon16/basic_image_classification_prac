@@ -21,6 +21,7 @@ def train_dataloader(batch_size = 64, num_workers = 0) -> DataLoader:
             transform=transforms.Compose([
                 transforms.RandomCrop(32, padding = 4), 
                 transforms.RandomHorizontalFlip(), 
+                transforms.RandAugment(num_ops=2, magnitude=9),
                 transforms.ToTensor(), 
                 # transforms.RandomErasing(p=0.25),
                 transforms.Normalize(mean = x_train_mean, std = x_train_std)

@@ -27,14 +27,15 @@ def main():
         }
     criterion = nn.CrossEntropyLoss()
     optimizer = optimizers["SGD"]
-    epochs = 50
+    epochs = 200
+    mixed_alpha = 0.2
     schedulers = {
         "None": None,
         "Cosine": torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=epochs, eta_min=1e-5),
 
         }
     scheduler = schedulers["Cosine"]
-    save_dir = "cifar100_ResNet18_teacher_cosine"
+    save_dir = f"cifar100_ResNet18_teacher_{epochs}_cosine_randaug_mixup0.2"
     load_file_name = ""
     # --------------------------------
 
@@ -44,9 +45,10 @@ def main():
 
     if load_file_name:
         start_epoch, _, _, best_val_acc = load_checkpoint(model, optimizer, save_dir, load_file_name, map_location=DEVICE, scheduler=scheduler)
+        print(f"Best Val Accuracy: {best_val_acc:.3f}%")
 
     for epoch in range(start_epoch, epochs):
-        train_loss = train_one_epoch(model, train_loader, criterion, optimizer, DEVICE)
+        train_loss = train_one_epoch(model, train_loader, criterion, optimizer, mixup_alpha=mixed_alpha, device=DEVICE)
         val_loss, accuracy = validate_one_epoch(model, val_loader, criterion, DEVICE)
         if scheduler is not None:
             scheduler.step()

@@ -1,8 +1,9 @@
 import torch
+from src.data.augmentation import mixup_batch
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-def train_one_epoch(model, train_loader, criterion, optimizer, device = DEVICE):
+def train_one_epoch(model, train_loader, criterion, optimizer, mixup_alpha = 0.0, device = DEVICE):
     model.train()
     total_loss = 0
     total_samples = 0
@@ -11,8 +12,17 @@ def train_one_epoch(model, train_loader, criterion, optimizer, device = DEVICE):
 
         images = images.to(device)
         labels = labels.to(device)
-        outputs = model(images)
-        loss = criterion(outputs, labels)
+
+        # mixup
+        if mixup_alpha > 0:
+            images, labels_a, labels_b, lam = mixup_batch(images, labels, alpha=mixup_alpha)
+
+            outputs = model(images)
+            loss = (lam * criterion(outputs, labels_a) + (1 - lam) * criterion(outputs, labels_b))
+        else:
+            outputs = model(images)
+            loss = criterion(outputs, labels)
+
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
