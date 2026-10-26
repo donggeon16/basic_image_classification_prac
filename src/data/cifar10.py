@@ -62,6 +62,30 @@ def val_dataloader(batch_size = 64, num_workers = 0) -> DataLoader:
     )
     return val_loader
 
+def test_dataloader(batch_size = 64, num_workers = 0) -> DataLoader:
+    npz_load = np.load(BASE/"data"/"stats"/"cifar10_stats.npz")
+    x_train_mean = npz_load["mean"]
+    x_train_std = npz_load["std"]
+
+    test_cifar10 = CIFAR10(
+            root=BASE/"data/raw",
+            train=False,
+            download=False,
+            transform=transforms.Compose(
+                [transforms.ToTensor(), 
+                transforms.Normalize(mean = x_train_mean, std = x_train_std)]
+                    )
+            )
+
+    test_loader = DataLoader(
+        test_cifar10,
+        batch_size=batch_size,
+        shuffle=False,
+        num_workers = num_workers
+    )
+
+    return test_loader
+
 
 def main():
 

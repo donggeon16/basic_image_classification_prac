@@ -11,8 +11,8 @@ SAVE_DIR.mkdir(parents=True, exist_ok=True)
 def main():
     dataset = CIFAR10(
     root=BASE/"data/raw",
-    train=True,
-    download=False
+    train=False,
+    download=True
     )
     print("CIFAR10 데이터셋 크기: ", len(dataset))
     image, label = dataset[0]
@@ -49,8 +49,8 @@ def main():
     overlap = np.intersect1d(train_idx, val_idx)
     print(f"train_idx 길이: {len(train_idx)}\nval_idx 길이: {len(val_idx)}\n두 인덱스의 교집합 크기: {len(overlap)}\nTrain과 Val의 클래스별 이미지 개수: {np.bincount(labels[train_idx])}, {np.bincount(labels[val_idx])}")
 
-    np.save(SAVE_DIR/"cifar10_train_idx.npy", train_idx)
-    np.save(SAVE_DIR/"cifar10_val_idx.npy", val_idx)
+    # np.save(SAVE_DIR/"cifar10_train_idx.npy", train_idx)
+    # np.save(SAVE_DIR/"cifar10_val_idx.npy", val_idx)
 
     loaded_train_idx = np.load(SAVE_DIR/"cifar10_train_idx.npy")
     loaded_val_idx = np.load(SAVE_DIR/"cifar10_val_idx.npy")
@@ -72,7 +72,7 @@ def main():
 
     path = BASE / "data" / "stats"
     path.mkdir(parents=True, exist_ok=True)
-    np.savez(path/"cifar10_stats.npz", mean = x_mean, std = x_std)
+    # np.savez(path/"cifar10_stats.npz", mean = x_mean, std = x_std)
     stats = np.load(path/"cifar10_stats.npz")
     mean = stats["mean"]
     std = stats["std"]
