@@ -9,7 +9,7 @@ DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 def main():
 
-    model = ResNet18().to(DEVICE)
+    model = ResNet18(10).to(DEVICE)
     train_loader = train_dataloader()
     val_loader = val_dataloader()
 

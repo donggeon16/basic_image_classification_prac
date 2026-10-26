@@ -45,6 +45,7 @@ def test_model(model, test_loader, criterion, save_dir, device = DEVICE):
     
     average_loss = total_loss / total_samples
     accuracy = total_correct / total_samples
+    assert confusion_matrix is not None
     class_correct = confusion_matrix.diag()
     class_total = confusion_matrix.sum(dim=1)
     class_accuracy = class_correct.float() / class_total.clamp(min=1)
@@ -64,7 +65,7 @@ def test_model(model, test_loader, criterion, save_dir, device = DEVICE):
 
 
 def main():
-    avg_loss, acc, cl_acc = test_model(model = ResNet18(), test_loader = test_dataloader(), criterion=nn.CrossEntropyLoss(), save_dir="cifar10_ResNet18")
+    avg_loss, acc, cl_acc = test_model(model = ResNet18(10), test_loader = test_dataloader(), criterion=nn.CrossEntropyLoss(), save_dir="cifar10_ResNet18")
     print(f"average_loss = {avg_loss:.4f}, accuracy = {acc * 100:.3f}%\nclass accuracy = {cl_acc}")
 
 

@@ -1,6 +1,8 @@
 import torch
 
-def train_one_epoch(model, train_loader, criterion, optimizer, device):
+DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+def train_one_epoch(model, train_loader, criterion, optimizer, device = DEVICE):
     model.train()
     total_loss = 0
     total_samples = 0

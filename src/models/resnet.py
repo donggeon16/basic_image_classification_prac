@@ -37,7 +37,7 @@ class BasicBlock(nn.Module):
         return y
 
 class ResNet18(nn.Module):
-    def __init__(self):
+    def __init__(self, num_classes):
         super().__init__()
         self.stem = nn.Sequential(
             nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=1, bias=False),
@@ -62,7 +62,7 @@ class ResNet18(nn.Module):
         )
         self.gap = nn.AdaptiveAvgPool2d((1, 1))
         self.flat = nn.Flatten(start_dim=1)
-        self.linear = nn.Linear(512, 10)
+        self.fc = nn.Linear(512, num_classes)
         
     def forward(self, x):
         x1 = self.stem(x)
@@ -70,7 +70,7 @@ class ResNet18(nn.Module):
         x3 = self.block2(x2)
         x4 = self.block3(x3)
         x5 = self.block4(x4)
-        y = self.linear(self.flat(self.gap(x5)))
+        y = self.fc(self.flat(self.gap(x5)))
         return y
 
 def test_basicblock():
@@ -91,8 +91,8 @@ def test_basicblock():
     print(block1.conv1.weight.grad is not None)
     print(block2.conv1.weight.grad is not None)
 
-def test_resnet18():
-    model = ResNet18().to(device)
+def test_resnet18(num_classes):
+    model = ResNet18(num_classes).to(device)
     x = torch.randn(8, 3, 32, 32, device=device)
     y = model(x)
     print(y.shape)
@@ -104,7 +104,7 @@ def test_resnet18():
     
 def main():
     # test_basicblock()
-    test_resnet18()
+    test_resnet18(num_classes = 100)
 
 
 if __name__ == "__main__":
