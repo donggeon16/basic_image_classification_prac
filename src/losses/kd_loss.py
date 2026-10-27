@@ -12,7 +12,7 @@ def distillation_loss(student_logits, teacher_logits, ce_loss, temperature=4.0, 
     return (1 - alpha) * ce_loss + alpha * kd_loss
 
 
-def mixup_dkd_terms(student_logits, teacher_logits, labels, temperature):
+def _dkd_terms(student_logits, teacher_logits, labels, temperature):
     labels = labels.reshape(-1, 1)
 
     s = student_logits / temperature
@@ -48,10 +48,10 @@ def dkd_loss(
     lam=1.0,
     warmup_factor=1.0
 ):
-    tckd, nckd = mixup_dkd_terms(student_logits, teacher_logits, labels, temperature)
+    tckd, nckd = _dkd_terms(student_logits, teacher_logits, labels, temperature)
 
     if labels_b is not None:
-        tckd_b, nckd_b = mixup_dkd_terms(student_logits, teacher_logits, labels_b, temperature)
+        tckd_b, nckd_b = _dkd_terms(student_logits, teacher_logits, labels_b, temperature)
 
         tckd = lam * tckd + (1 - lam) * tckd_b
         nckd = lam * nckd + (1 - lam) * nckd_b
