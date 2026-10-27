@@ -64,7 +64,7 @@ def test_model(model, test_loader, criterion, save_dir, device = DEVICE):
 
 
 def main():
-    avg_loss, acc, cl_acc = test_model(model = MobileNetv2(100), test_loader = test_dataloader(), criterion=nn.CrossEntropyLoss(), save_dir="cifar100_MobileNetV2_student_200_cosine_randaug_mixup0.2")
+    avg_loss, acc, cl_acc = test_model(model = MobileNetv2(100), test_loader = test_dataloader(), criterion=nn.CrossEntropyLoss(), save_dir="cifar100_MobileNetV2_kd_200_cosine_randaug_mixup0.2_T4.0_dkd_a1.0_b8.0_warmup20")
     print(f"average_loss = {avg_loss:.4f}, accuracy = {acc * 100:.3f}%\nclass accuracy = {cl_acc}")
 
 
