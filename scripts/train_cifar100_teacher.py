@@ -36,7 +36,7 @@ def main():
         }
     scheduler = schedulers["Cosine"]
     save_dir = f"cifar100_ResNet18_teacher_{epochs}_cosine_randaug_mixup0.2"
-    load_file_name = ""
+    load_file_name = "best.pt"
     # --------------------------------
 
     # train and valid
