@@ -4,7 +4,7 @@ from src.utils.seed import get_rng_state, restore_rng_state
 from src.utils.constants import DEVICE, BASE
 
 
-def save_checkpoint(epoch, model, optimizer, val_loss, val_acc, save_dir, is_best = False, scheduler = None):
+def save_checkpoint(epoch, model, optimizer, val_loss, val_acc, save_dir, is_best = False, scheduler = None, save_every = False):
     epoch += 1
     checkpoint = {
         "epoch": epoch,
@@ -21,8 +21,10 @@ def save_checkpoint(epoch, model, optimizer, val_loss, val_acc, save_dir, is_bes
     path.mkdir(parents = True, exist_ok = True)
     if is_best:
         torch.save(checkpoint, path/"best.pt")
-    else: 
+    elif save_every:
         torch.save(checkpoint, path/f"epoch{epoch:03d}.pt")
+    else: 
+        torch.save(checkpoint, path/f"last.pt")
 
 def load_checkpoint(model, optimizer, save_dir, file_name, map_location = DEVICE, weights_only = True, scheduler = None):
     path = BASE/"runs"/save_dir/file_name

@@ -38,6 +38,7 @@ def main():
         }
     scheduler = schedulers["Cosine"]
     save_dir = f"cifar100_MobileNetV2_kd_{epochs}_cosine_randaug_mixup{mixed_alpha}_T{temperature}_a{alpha}"
+    save_every = False
     teacher_dir = f"cifar100_ResNet18_teacher_{epochs}_cosine_randaug_mixup0.2"
     load_file_name = ""
     # --------------------------------
@@ -67,7 +68,7 @@ def main():
         print(f"Train Loss: {train_loss}")
         print(f"Val Loss: {val_loss}")
         print(f"Val Accuracy: {accuracy*100:.3f}%")
-        save_checkpoint(epoch = epoch, model=student, optimizer=optimizer, val_loss=val_loss, val_acc=accuracy, save_dir=save_dir, scheduler=scheduler)
+        save_checkpoint(epoch = epoch, model=student, optimizer=optimizer, val_loss=val_loss, val_acc=accuracy, save_dir=save_dir, scheduler=scheduler, save_every=save_every)
 
         history.update(epoch + 1, train_loss, val_loss, accuracy)
         history.save_plot(save_dir)
