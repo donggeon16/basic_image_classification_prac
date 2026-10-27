@@ -44,7 +44,7 @@ EXPERIMENTS = {
     ),
 }
 
-REPORTS_ROOT = BASE / "reports"
+REPORTS_ROOT = BASE / "reports" / "raw" / "cifar100"
 STATS_FILE = BASE / "data" / "stats" / "cifar100_stats.npz"
 
 
