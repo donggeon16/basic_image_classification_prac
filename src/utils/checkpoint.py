@@ -46,3 +46,10 @@ def load_checkpoint(model, optimizer, save_dir, file_name, map_location = DEVICE
     val_acc = checkpoint["val_acc"]
 
     return saved_epoch, val_loss, val_acc, best_val_acc
+
+def load_teacher_checkpoint(model, save_dir):
+    path = BASE / "runs" / save_dir / "best.pt"
+    
+    checkpoint = torch.load(path, map_location = "cpu", weights_only = True)
+    model.load_state_dict(checkpoint["model_state_dict"])
+    print(f"Teacher checkpoint loaded successfully, acc: {checkpoint["val_acc"]}")
