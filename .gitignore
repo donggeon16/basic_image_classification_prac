@@ -18,3 +18,4 @@ __pycache__/
 
 # docs
 CV_from_scratch_분류증류_드론탐지_실행계획.md
+/reports/raw/*
