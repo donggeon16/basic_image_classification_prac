@@ -100,6 +100,8 @@ def test_resnet18(num_classes):
     loss.backward()
     print(model.stem[0].weight.grad is not None)
     print(model.stem[0].weight.grad.device) # type: ignore
+    num_params = sum(p.numel() for p in model.parameters())
+    print(f"Parameters: {num_params:,}")
 
     
 def main():
