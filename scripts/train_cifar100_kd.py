@@ -30,14 +30,26 @@ def main():
     epochs = 200
     mixed_alpha = 0.2
     temperature = 4.0
-    alpha = 0.5
+    kd_terms = {
+        "kd": {
+            "method": "kd",
+            "alpha": 0.5
+        },
+        "dkd": {
+            "method": "dkd",
+            "alpha": 1.0,
+            "beta": 8.0,
+            "warmup_epochs": 20
+        }
+    }
+    kd_term = kd_terms["kd"]
     schedulers = {
         "None": None,
         "Cosine": torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=epochs, eta_min=1e-5),
 
         }
     scheduler = schedulers["Cosine"]
-    save_dir = f"cifar100_MobileNetV2_kd_{epochs}_cosine_randaug_mixup{mixed_alpha}_T{temperature}_a{alpha}"
+    save_dir = f"cifar100_MobileNetV2_kd_{epochs}_cosine_randaug_mixup{mixed_alpha}_T{temperature}_kd_a{kd_term["alpha"]}"
     save_every = False
     teacher_dir = f"cifar100_ResNet18_teacher_{epochs}_cosine_randaug_mixup0.2"
     load_file_name = ""
@@ -55,7 +67,7 @@ def main():
         print(f"Best Val Accuracy: {best_val_acc*100:.3f}%")
 
     for epoch in range(start_epoch, epochs):
-        train_loss = train_one_epoch_kd(student, teacher, train_loader, criterion, optimizer, temperature=temperature, alpha=alpha, mixup_alpha=mixed_alpha, device=DEVICE)
+        train_loss = train_one_epoch_kd(student, teacher, train_loader, criterion, optimizer, temperature=temperature, term=kd_term, mixup_alpha=mixed_alpha, device=DEVICE)
         val_loss, accuracy = validate_one_epoch(student, val_loader, criterion, DEVICE)
         if scheduler is not None:
             scheduler.step()
