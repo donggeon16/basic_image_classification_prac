@@ -4,8 +4,7 @@ from src.data.cifar10 import train_dataloader, val_dataloader
 from src.utils.checkpoint import save_checkpoint, load_checkpoint
 import torch
 import torch.nn as nn
-
-DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+from src.utils.constants import BASE, DEVICE
 
 def main():
 

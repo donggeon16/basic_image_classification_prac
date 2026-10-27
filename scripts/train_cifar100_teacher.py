@@ -8,8 +8,8 @@ import torch
 import torch.nn as nn
 import matplotlib.pyplot as plt
 from pathlib import Path
+from src.utils.constants import BASE, DEVICE
 
-DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 def main():
     set_seed(42)

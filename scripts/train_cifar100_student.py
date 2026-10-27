@@ -6,8 +6,7 @@ from src.utils.seed import set_seed
 from src.utils.training_history import TrainingHistory
 import torch
 import torch.nn as nn
-
-DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+from src.utils.constants import BASE, DEVICE
 
 def main():
     set_seed(42)

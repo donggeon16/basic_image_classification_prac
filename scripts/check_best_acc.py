@@ -1,7 +1,8 @@
 import torch
 from pathlib import Path
+from src.utils.constants import BASE, DEVICE
 
-BASE = Path(__file__).resolve().parent.parent
+
 RUNS_DIR = BASE / "runs"
 
 

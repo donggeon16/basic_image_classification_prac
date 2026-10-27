@@ -6,9 +6,7 @@ import numpy as np
 from src.data.cifar100 import test_dataloader
 from src.models.resnet import ResNet18
 from src.models.mobilenetv2 import MobileNetv2
-
-DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-BASE = Path(__file__).resolve().parent.parent.parent
+from src.utils.constants import DEVICE, BASE
 
 def test_model(model, test_loader, criterion, save_dir, device = DEVICE):
     model = model.to(device)

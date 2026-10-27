@@ -1,7 +1,7 @@
 import torch.nn as nn
 import torch
+from src.utils.constants import DEVICE
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 class BasicBlock(nn.Module):
     def __init__(self, in_channels, out_channels, stride = 1):
@@ -75,12 +75,12 @@ class ResNet18(nn.Module):
 
 def test_basicblock():
     print("identity shortcut test")
-    block1 = BasicBlock(64, 64, 1).to(device)
-    x = torch.randn(8, 64, 32, 32, device=device)
+    block1 = BasicBlock(64, 64, 1).to(DEVICE)
+    x = torch.randn(8, 64, 32, 32, device=DEVICE)
     y1 = block1(x)
     print(y1.shape)
     print("projection shortcut test")
-    block2 = BasicBlock(64, 128, 2).to(device)
+    block2 = BasicBlock(64, 128, 2).to(DEVICE)
     y2 = block2(x)
     print(y2.shape)
     print("backward test")
@@ -92,8 +92,8 @@ def test_basicblock():
     print(block2.conv1.weight.grad is not None)
 
 def test_resnet18(num_classes):
-    model = ResNet18(num_classes).to(device)
-    x = torch.randn(8, 3, 32, 32, device=device)
+    model = ResNet18(num_classes).to(DEVICE)
+    x = torch.randn(8, 3, 32, 32, device=DEVICE)
     y = model(x)
     print(y.shape)
     loss = y.mean()

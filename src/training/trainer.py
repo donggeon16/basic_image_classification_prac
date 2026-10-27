@@ -1,7 +1,6 @@
 import torch
 from src.data.augmentation import mixup_batch
-
-DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+from src.utils.constants import DEVICE
 
 def train_one_epoch(model, train_loader, criterion, optimizer, mixup_alpha = 0.0, device = DEVICE):
     model.train()

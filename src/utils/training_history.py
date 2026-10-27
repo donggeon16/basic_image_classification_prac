@@ -1,7 +1,6 @@
 import matplotlib.pyplot as plt
 from pathlib import Path
-
-BASE = Path(__file__).resolve().parents[2]
+from src.utils.constants import BASE
 
 class TrainingHistory:
     def __init__(self):

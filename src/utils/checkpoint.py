@@ -1,9 +1,8 @@
 import torch
 from pathlib import Path
 from src.utils.seed import get_rng_state, restore_rng_state
+from src.utils.constants import DEVICE, BASE
 
-BASE = Path(__file__).resolve().parent.parent.parent
-DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 def save_checkpoint(epoch, model, optimizer, val_loss, val_acc, save_dir, is_best = False, scheduler = None):
     epoch += 1

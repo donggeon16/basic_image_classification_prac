@@ -4,9 +4,7 @@ from torch.utils.data import DataLoader
 from torchvision.datasets import CIFAR100
 from pathlib import Path
 import numpy as np
-
-BASE = Path(__file__).resolve().parent.parent.parent
-
+from src.utils.constants import BASE
 
 def train_dataloader(batch_size = 64, num_workers = 0) -> DataLoader:
     train_idx = np.load(BASE/"data"/"splits"/"cifar100_train_idx.npy")

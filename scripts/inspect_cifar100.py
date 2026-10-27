@@ -3,8 +3,8 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.model_selection import train_test_split
+from src.utils.constants import BASE, DEVICE
 
-BASE = Path(__file__).resolve().parent.parent
 SAVE_DIR = BASE / "data" / "splits"
 SAVE_DIR.mkdir(parents=True, exist_ok=True)
 
