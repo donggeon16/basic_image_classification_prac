@@ -1,4 +1,4 @@
-"""CIFAR-100 model complexity and inference benchmark (A4-2).
+"""CIFAR-100 model complexity and inference benchmark.
 
 Place in: src/evaluation/cifar100_benchmark.py
 Run at project root: python -m src.evaluation.cifar100_benchmark
