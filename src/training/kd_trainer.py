@@ -1,9 +1,9 @@
 import torch
 from src.data.augmentation import mixup_batch
 from src.utils.constants import DEVICE
-from src.losses.kd_loss import distillation_loss
+from src.losses.kd_loss import distillation_loss, dkd_loss
 
-def train_one_epoch_kd(student, teacher, train_loader, criterion, optimizer, temperature = 4.0, alpha = 0.5, mixup_alpha = 0.0, device = DEVICE):
+def train_one_epoch_kd(student, teacher, train_loader, criterion, optimizer, term, temperature = 4.0, mixup_alpha = 0.0, device = DEVICE):
     student.train()
     teacher.eval()
     total_loss = 0
@@ -18,17 +18,31 @@ def train_one_epoch_kd(student, teacher, train_loader, criterion, optimizer, tem
         if mixup_alpha > 0:
             images, labels_a, labels_b, lam = mixup_batch(images, labels, alpha=mixup_alpha)
 
-            student_logits = student(images)
-            with torch.no_grad():
-                teacher_logits = teacher(images)
+        student_logits = student(images)
+        with torch.no_grad():
+            teacher_logits = teacher(images)
+
+        if mixup_alpha > 0:
             ce_loss = (lam * criterion(student_logits, labels_a) + (1 - lam) * criterion(student_logits, labels_b))
         else:
-            student_logits = student(images)
-            with torch.no_grad():
-                teacher_logits = teacher(images)
             ce_loss = criterion(student_logits, labels)
-        
-        loss = distillation_loss(student_logits, teacher_logits, ce_loss, temperature=temperature, alpha=alpha)
+
+        if term["method"] == "kd":
+            loss = distillation_loss(student_logits, teacher_logits, ce_loss, temperature=temperature, alpha=term["alpha"])
+
+        elif term["method"] == "dkd":
+            loss = dkd_loss(
+                student_logits,
+                teacher_logits,
+                ce_loss=ce_loss,
+                temperature=temperature,
+                alpha=term["alpha"],
+                beta=term["beta"],
+                labels=labels_a if mixup_alpha > 0 else labels,
+                labels_b=labels_b if mixup_alpha > 0 else None,
+                lam=lam if mixup_alpha > 0 else 1.0,
+                warmup_factor=term["warmup_factor"]
+            )
 
         optimizer.zero_grad()
         loss.backward()
