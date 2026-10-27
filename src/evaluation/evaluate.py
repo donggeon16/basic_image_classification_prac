@@ -65,7 +65,7 @@ def test_model(model, test_loader, criterion, save_dir, device = DEVICE):
 
 
 def main():
-    avg_loss, acc, cl_acc = test_model(model = ResNet18(100), test_loader = test_dataloader(), criterion=nn.CrossEntropyLoss(), save_dir="cifar100_ResNet18_teacher_200_cosine_mixup0.2")
+    avg_loss, acc, cl_acc = test_model(model = ResNet18(100), test_loader = test_dataloader(), criterion=nn.CrossEntropyLoss(), save_dir="cifar100_ResNet18_teacher_200_cosine_randaug_mixup0.2")
     print(f"average_loss = {avg_loss:.4f}, accuracy = {acc * 100:.3f}%\nclass accuracy = {cl_acc}")
 
 
